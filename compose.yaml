@@ -1,0 +1,19 @@
+services:
+  t5ks-bridge:
+    build: .
+    container_name: t5ks-bridge
+    restart: unless-stopped
+    # Host networking is required: UDP broadcast (kiosks) and mDNS (TECHO5) don't cross Docker's bridge network.
+    network_mode: host
+    environment:
+      # The house word set on your TECHO5 devices (setup page). Required.
+      HOUSE_WORD: "change-me"
+      # What the Shows will call the Portal in their logs.
+      BRIDGE_NAME: "Portal"
+      # Shifts kiosk scores to match TECHO5's scale. A Meta Portal needed about -25 (see README: Calibrate).
+      OFFSET_DB: "0"
+      # This host's LAN address. Usually detected; set it if the log shows the wrong one.
+      # ADVERTISE_IP: "192.168.1.50"
+      # Only if a wake word is named differently on the two sides, e.g. "okay_nabu=ok nabu".
+      # WORD_MAP: ""
+      # LOG_LEVEL: "debug"
